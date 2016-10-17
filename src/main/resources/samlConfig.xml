@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+   <properties> 
+   
+		<!-- maximum difference between clocks of the IDP and SP machines. Setting default to 60 sec -->
+		<entry key="clockSkew">6000</entry>
+
+		<!-- name of the issuing SP -->
+   		<entry key="spIssuerName">TOTVSLabs</entry>
+   		
+   		<!-- binding to use to send the authentication request...HttpPost and HttpRedirect  -->
+        <entry key="spProtocolBinding">HttpPost</entry>
+        
+        <!-- assertion consumer service url the IDP will use to send the response -->
+        <entry key="acsURL">http://localhost:8080/treinamento-identity/ACS</entry>
+        
+        <!-- binding the IDP will use to send the response...HttpPost or HttpPostSign or HttpPostRedirect -->
+        <entry key="idpProtocolBinding">HttpPost</entry>
+        
+        <!-- simple/friendly name of the service provider -->
+        <entry key="providerName">TotvsLabs</entry>
+        
+        <!-- nameId format...email or unspecified or transient -->
+        <entry key="nameIdFormat">email</entry>
+        
+        <!-- relayState ...for now adding the acs url to the relaystate. This is OPTIONAL -->
+        <entry key="relayState">http://localhost:8080/treinamento-identity/ACS</entry>
+        
+        <!-- name of the issuing IDP -->
+        <entry key="idpIssuerName">TotvsLabs</entry>
+        
+        <!-- url of the IDP that will receive the authentication request (for cloudpass IDP, the url will vary for HttpPost and HttpRedirect binding-->
+        <entry key="idpDestination">https://testingsaml.thecloudpass.com:443/cloudpass/SPInitPost/receiveSSORequest</entry>
+        
+        <!-- cloudpass certificate -->
+        <entry key="certificateFile">C:\\FLUIG\\treinamentos\\treinamento-fluig-identity\\src\\main\\resources\\testingsaml.thecloudpass.com.crt</entry>
+        
+        <!-- -->
+        <entry key="idpCertIssuerName">Totvslabs</entry>
+       
+   </properties>
