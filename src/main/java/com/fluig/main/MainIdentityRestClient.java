@@ -1,7 +1,11 @@
 package com.fluig.main;
+import java.util.HashMap;
+import java.util.Map;
+
 import com.totvslabs.idm.common.exception.FluigIdentityException;
-import com.totvslabs.idm.common.model.UserAccountDTO;
+import com.totvslabs.idm.common.extension.Resource;
 import com.totvslabs.idm.common.model.UserCompanyAccountDTO;
+import com.totvslabs.idm.common.util.ScimResourceTypeEnum;
 import com.totvslabs.idm.rest.client.FluigIdentityRestClient;
 import com.totvslabs.idm.rest.client.credentials.FluigIdentityCredentials;
 
@@ -11,17 +15,45 @@ public class MainIdentityRestClient {
 	public static FluigIdentityCredentials credentials;
 	public static FluigIdentityRestClient client;
 	public static String COMPANY_ID = "9dknst0cywf51hsr1474853531915";
+	public static String CLIENT_ID = "c43d2009-b842-4aff-8cdd-1d28e3fb1304";
+	public static String IDENTITY_URI = "https://testingsaml.thecloudpass.com";
+	
 	
 	public static void main(String[] args) throws FluigIdentityException {
-		UserCompanyAccountDTO userInfo = MainIdentityRestClient.getFluigClient().getCompanyUserService().getUserById(MainIdentityRestClient.COMPANY_ID, "k50294z21nisq81f1474849411098");
-		System.out.println("Email:"+ userInfo.getEmailAddress());
+//		UserCompanyAccountDTO userInfo = MainIdentityRestClient.getFluigClient().getCompanyUserService().getUserById(MainIdentityRestClient.COMPANY_ID, "k50294z21nisq81f1474849411098");
+//		System.out.println("Email:"+ userInfo.getEmailAddress());
+//		
+//		UserCompanyAccountDTO accountDTO = MainIdentityRestClient.createUser("juliemar.berri@totvs.com.br", "Juliemar", "TOTVS", "Totvs@123");
+//		System.out.println(accountDTO.getId());
 		
-		UserCompanyAccountDTO accountDTO = MainIdentityRestClient.createUser("juliemar.berri@totvs.com.br", "Juliemar", "TOTVS", "Totvs@123");
-		System.out.println(accountDTO.getId());
-		
-		
+//		MainIdentityRestClient.addResource("Admininstrador");
 	}
 
+	
+	public static void addResource(String resourceName) throws FluigIdentityException{
+		
+		Resource resource = new Resource();
+
+		resource.setType("Project");
+		resource.setScimResourceTypeEnum(ScimResourceTypeEnum.ROLE);
+		
+		Map<String, String> name = new HashMap<String, String>();
+		
+		name.put("en-US", resourceName);
+		name.put("pt-BR", resourceName);
+		
+		resource.setDescription(name);
+		resource.setDisplayName(name);
+		resource.setName(name);
+
+		
+		resource = MainIdentityRestClient.getFluigClient().getScimResourcesService().createApplicationResource(COMPANY_ID, "yso3uyr17vz1rfrv1476669824768", resource);
+	
+		
+		
+		System.out.println("Resource-ID:"+ resource.getId());
+	
+	}
 	
 	public static UserCompanyAccountDTO createUser(String mail,String name,String lastName,String password) throws FluigIdentityException{
 		UserCompanyAccountDTO accountDTO = new UserCompanyAccountDTO();
@@ -42,7 +74,7 @@ public class MainIdentityRestClient {
 		if(MainIdentityRestClient.credentials==null){
 			try {
 				MainIdentityRestClient.credentials = new FluigIdentityCredentials
-						("c43d2009-b842-4aff-8cdd-1d28e3fb1304", privatekeyFile, "https://testingsaml.thecloudpass.com");
+						(MainIdentityRestClient.CLIENT_ID, privatekeyFile, MainIdentityRestClient.IDENTITY_URI);
 			} catch (FluigIdentityException e) {
 				e.printStackTrace();
 			}
