@@ -104,6 +104,9 @@ public class AssertionConsumerService extends HttpServlet {
 			response.setStatus(HttpServletResponse.SC_OK);
 			response.getWriter().write("Subject: " + user.getUsername());
 			
+			//TODO: Você poderia injetar o usuário logado em um outro sistema mqualquer que não suporte SAML nativamente.
+			
+			
 			//get the attribute names and values
 			Map<String, List<String>> attributes =  user.getAttributes();		
 			
@@ -114,7 +117,7 @@ public class AssertionConsumerService extends HttpServlet {
 				List<String> attrValueList = entry.getValue();
 				for (String val : attrValueList){
 					System.out.println("Attribute value : " + val);
-					
+					response.getWriter().write("Attribute value : " + val);
 				}
 			}
 		}
