@@ -23,10 +23,10 @@ public class MainIdentityRestClient {
 //		UserCompanyAccountDTO userInfo = MainIdentityRestClient.getFluigClient().getCompanyUserService().getUserById(MainIdentityRestClient.COMPANY_ID, "k50294z21nisq81f1474849411098");
 //		System.out.println("Email:"+ userInfo.getEmailAddress());
 //		
-//		UserCompanyAccountDTO accountDTO = MainIdentityRestClient.createUser("juliemar.berri@totvs.com.br", "Juliemar", "TOTVS", "Totvs@123");
+//		UserCompanyAccountDTO accountDTO = MainIdentityRestClient.createUser("clientrest@identity.com", "Client", "REST", "Totvs@123");
 //		System.out.println(accountDTO.getId());
 		
-//		MainIdentityRestClient.addResource("Admininstrador");
+		MainIdentityRestClient.addResource("Gestor");
 	}
 
 	
@@ -56,6 +56,7 @@ public class MainIdentityRestClient {
 	}
 	
 	public static UserCompanyAccountDTO createUser(String mail,String name,String lastName,String password) throws FluigIdentityException{
+		
 		UserCompanyAccountDTO accountDTO = new UserCompanyAccountDTO();
 		accountDTO.setCompanyId(MainIdentityRestClient.COMPANY_ID);
 		accountDTO.setEmailAddress(mail);
@@ -68,13 +69,17 @@ public class MainIdentityRestClient {
 		return accountDTO;
 	}
 	
+	/**
+	 * Inicializa as credenciais
+	 * @return
+	 */
 	private static FluigIdentityCredentials getCredentials() {
 		String privatekeyFile = MainIdentityRestClient.class.getProtectionDomain().getCodeSource().getLocation().toString().replace("file:/", "").replace("target/classes/", "lib/FluigIdentity.pk8");
 		
 		if(MainIdentityRestClient.credentials==null){
 			try {
 				MainIdentityRestClient.credentials = new FluigIdentityCredentials
-						(MainIdentityRestClient.CLIENT_ID, privatekeyFile, MainIdentityRestClient.IDENTITY_URI);
+						(MainIdentityRestClient.CLIENT_ID, "C:\\FLUIG\\treinamentos\\treinamento-fluig-identity\\lib\\FluigIdentity.pk8", MainIdentityRestClient.IDENTITY_URI);
 			} catch (FluigIdentityException e) {
 				e.printStackTrace();
 			}
@@ -83,6 +88,10 @@ public class MainIdentityRestClient {
 		return MainIdentityRestClient.credentials;
 	}
 	
+	/**
+	 * Inicializa o Client
+	 * @return
+	 */
 	public static FluigIdentityRestClient getFluigClient(){
 		if(MainIdentityRestClient.client==null){
 			MainIdentityRestClient.client = new FluigIdentityRestClient(getCredentials());
